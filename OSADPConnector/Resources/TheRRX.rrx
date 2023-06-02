@@ -1,0 +1,226 @@
+﻿<rrx>
+<!-- === .NET Action Definition and Help === -->
+<!-- Licensed Materials - Property of IBM
+
+ © Copyright IBM Corp. 1994, 2023 All Rights Reserved
+
+ Created by Scott Sumner-Moore, 2023
+
+ -->
+
+  <net ref="OSADPConnector.OSADPConnector">
+
+    <method name="SendPageToADP">
+      <p name="zenBaseURL" type="string" qi="This is the URL to connect to ADP (the node and port, if the port is applicable)."/>
+      <p name="loginTarget" type="string" qi="This is the rest of the URL for logging in."/>
+      <p name="zenUserName" type="string" qi="This is the username to connect to ADP."/>
+      <p name="zenPassword" type="string" qi="This is the password to connect to ADP."/>
+      <p name="analyzeTarget" type="string" qi="This is the rest of the URL for analyzing the page."/>
+      <p name="verifyTokenTarget" type="string" qi="This is the rest of the URL for verifying the token."/>
+      <p name="adpProjectID" type="string" qi="This is the project ID within ADP that you want to use for analysis."/>
+      <p name="fieldSuffix" type="string" qi="This string is appended to the name of each field when adding the field to the page."/>
+      <p name="timeoutInMinutes" type="string" qi="This is the the number of minutes the system should wait for ADP to complete processing each page."/>
+      <p name="jsonOptions" type="string" qi="This is the string of json options to use in performing the analysis."/>
+      <!-- <p name="outputDirectoryPath" type="string" qi="This is the path into which temporary files are to be written."/> -->
+      <p name="outputOptions" type="string" qi="This is the format in which you'd like the results from ADP."/>
+      <p name="fieldsAction" type="string" qi="This specifies what to do when there are multiple fields with the same key class, or fields with no key class."/>
+      <p name="confidenceAction" type="string" qi="This specifies how you want to handle fields based on how confident ADP is about the field."/>
+      <p name="docClass" type="string" qi="This specifies the document class you want ADP to use for the document (if any). Can be blank and ADP will determine the doc class."/>
+      <p name="pollingIntervalInSeconds" type="string" qi="This is the the number of seconds the system should wait between asking ADP if it's done processing a page."/>
+      <p name="maxThreads" type="string" qi="The maximum number of threads to be used to send documents to ADP."/>
+      <h>
+        This method will send a page to the ADP REST Service (in Cloud Pak for Business Automation 21.0.3 and later), and return the json output from OCR extraction. All parameters support smart parameters.<br/><br/>
+        <e>
+          <b>
+            SendPageToADP("https://myzen.adp.com", "/v1/preauth/validateAuth", "@APPVAR(values/adv/ADPUserID)", "@APPVAR(values/adv/ADPPassword)",
+            "/adp/aca/v1/projects/[[adp_project_id]]/analyzers", "/usermgmt/v1/user/currentUserInfo", "@APPVAR(values/adv/ADPProjectID)",
+            "@APPVAR(values/adv/ADPFieldSuffix)", "@APPVAR(values/adv/ADPTimeoutInMinutes)", "ocr,dc,kvp,sn,hr,th,mt,ai,ds", "@APPPATH(runtime)", "json", "KeepSingleBestWithKeyClass", "KeepHigh", "", "5", "3")
+          </b>
+          <br/>
+        </e>
+      </h>
+      <lvl>Batch or Page Level</lvl>
+      <ret>
+        <b>True,</b> if the action succeeds.  If an exception is thrown it will return <b>False.</b>
+      </ret>
+      <prop name="umsBaseURL" type="string" qi="This is the URL to connect to ADP (the node and port, if the port is applicable).">
+        <h>
+          This is the URL to connect to ADP (the node and port, if the port is applicable). This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="loginTarget" type="string" qi="This is the rest of the URL for logging in.">
+        <h>
+          This is the rest of the URL for logging in. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="umsUserName" type="string" qi="This is the username to connect to ADP.">
+        <h>
+          "This is the username to connect to ADP. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="umsPassword" type="string" qi="This is the password to connect to ADP.">
+        <h>
+          This is the password to connect to ADP. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="acaBaseURL" type="string" qi="This is the URL for content analysis (the node and port, if the port is applicable).">
+        <h>
+          This is the URL for content analysis (the node and port, if the port is applicable). This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="analyzeTarget" type="string" qi="This is the rest of the URL for analyzing the page.">
+        <h>
+          This is the rest of the URL for analyzing the page. This supports smart parameters.
+          Note that if the string "[[adp_project_id]]" is found within this parameter, the value of the adpProjectID parameter will be substituted into this parameter in its place.<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="adpProjectID" type="string" qi="This is the project ID within ADP that you want to use for analysis.">
+        <h>
+          This is the project ID within ADP that you want to use for analysis. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="clientID" type="string" qi="This is the client ID for performing the analysis.">
+        <h>
+          This is the client ID for performing the analysis. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="clientSecret" type="string" qi="This is the client secret for performing the analysis.">
+        <h>
+          This is the client secret for performing the analysis. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="fieldSuffix" type="string" qi="This string is appended to the name of each field when adding the field to the page.">
+        <h>
+          This string is appended to the name of each field when adding the field to the page. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="timeoutInMinutes" type="string" qi="This is the the number of minutes the system should wait for ADP to complete processing each page.">
+        <h>
+          This is the the number of minutes the system should wait for ADP to complete processing each page. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="jsonOptions" type="string" qi="This is the string of json options to use in performing the analysis.">
+        <h>
+          This is the string of json options to use in performing the analysis. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <!--
+      <prop name="outputDirectoryPath" type="string" qi="This is the path into which temporary files are to be written.">
+        <h>
+          This is the path into which temporary files are to be written. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      -->
+      <prop name="outputOptions" type="string" qi="This is the format in which you'd like the results from ADP.">
+        <h>
+          This is the format in which you'd like the results from ADP. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="fieldsAction" type="string" qi="This specifies what to do when there are multiple fields with the same key class, or fields with no key class.">
+        <h>
+          This specifies what to do when there are multiple fields with the same key class, or fields with no key class. This supports smart parameters. Possible values are:<br/><br/>
+          KeepAll: Don't remove any multiple fields.<br/>
+          KeepAllWithKeyClass: Keep all fields that have a key class from ADP.<br/>
+          KeepSingleBest: When there are multiple fields for an ADP key class, keep only the best one. Also keep fields without a key class.<br/>
+          KeepSingleBestWithKeyClass: When there are multiple fields for an ADP key class, keep only the best one. Don't keep fields without a key class.<br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="confidenceAction" type="string" qi="This specifies how you want to handle fields based on how confident ADP is about the field.">
+        <h>
+          This specifies how you want to handle fields based on how confident ADP is about the field. This supports smart parameters.  Possible values are:<br/><br/>
+          KeepAll: Keep all fields, no matter how confident ADP is.<br/>
+          KeepMedium: Keep the fields ADP has high or medium confidence in.<br/>
+          KeepHigh: Keep only the fields ADP has high confidence in.<br/>
+          DeleteAll: Delete all fields from ADP<br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="docClass" type="string" qi="This specifies the document class you want ADP to use for the document (if any). Can be blank and ADP will determine the doc class.">
+        <h>
+          This specifies the document class you want ADP to use for the document (if any). Can be blank and ADP will determine the doc class. This supports smart parameters.<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="pollingIntervalInSeconds" type="string" qi="This is the the number of seconds the system should wait between asking ADP if it's done processing a page.">
+        <h>
+          This is the the number of seconds the system should wait between asking ADP if it's done processing a page. This supports smart parameters<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+      <prop name="maxThreads" type="string" qi="The maximum number of threads to be used to send documents to ADP.">
+        <h>
+          The maximum number of threads to be used to send documents to ADP. This supports smart parameters.<br/><br/>
+        </h>
+        <lvl>Batch or Page Level</lvl>
+      </prop>
+    </method>
+
+    <method name="SpreadTheADPResults">
+      <p name="fieldsAction" type="string" qi="This specifies what to do when there are multiple fields with the same key class, or fields with no key class."/>
+      <p name="confidenceAction" type="string" qi="This specifies how you want to handle fields based on how confident ADP is about the field."/>
+      <h>
+        This method assumes the first page-level object within the document is a multi-page object that has been sent to ADP for processing
+        and the following page-level objects in the document are the individual pages from the multi-page object.
+        It reads the ADP results from the first page-level object and applies them to the following individual pages.<br/><br/>
+        <e>
+          <b>SpreadTheADPResults("KeepSingleBestWithKeyClass", "KeepHigh")</b>
+          <br/>
+        </e>
+      </h>
+      <lvl>Document Level</lvl>
+      <ret>
+        <b>True,</b> if the action succeeds.  If an exception is thrown it will return <b>False.</b>
+      </ret>
+      <prop name="fieldsAction" type="string" qi="This specifies what to do when there are multiple fields with the same key class, or fields with no key class.">
+        <h>
+          This specifies what to do when there are multiple fields with the same key class, or fields with no key class. Possible values are:<br/><br/>
+          KeepAll: Don't remove any multiple fields.<br/>
+          KeepAllWithKeyClass: Keep all fields that have a key class from ADP.<br/>
+          KeepSingleBest: When there are multiple fields for an ADP key class, keep only the best one. Also keep fields without a key class.<br/>
+          KeepSingleBestWithKeyClass: When there are multiple fields for an ADP key class, keep only the best one. Don't keep fields without a key class.<br/>
+        </h>
+        <lvl>Page Level</lvl>
+      </prop>
+      <prop name="confidenceAction" type="string" qi="This specifies how you want to handle fields based on how confident ADP is about the field.">
+        <h>
+          This specifies how you want to handle fields based on how confident ADP is about the field.  Possible values are:<br/><br/>
+          KeepAll: Keep all fields, no matter how confident ADP is.<br/>
+          KeepMedium: Keep the fields ADP has high or medium confidence in.<br/>
+          KeepHigh: Keep only the fields ADP has high confidence in.<br/>
+          DeleteAll: Delete all fields from ADP<br/>
+        </h>
+        <lvl>Page Level</lvl>
+      </prop>
+    </method>
+
+    <method name="MoveFieldsToFirstPageOfDocument">
+      <h>
+        This action will move all fields in a multi-page document to the first page and remove the DATAFILE property on the trailing pages.<br/><br/>
+        <e>
+          <b>MoveFieldsToFirstPageOfDocument()</b>
+          <br/>
+        </e>
+      </h>
+      <lvl>Document Level.</lvl>
+      <ret>
+        <b>True,</b> if the action succeeds.  If there is an error, it will return <b>False.</b>
+      </ret>
+    </method>
+
+  </net>
+</rrx>
