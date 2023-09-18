@@ -32,7 +32,7 @@ namespace OSADPConnector
             MemoryStream msObj = new MemoryStream(configBuffer);
             ADPConfig adpConfig = (ADPConfig)js.ReadObject(msObj);
             fixAnalyzeTarget(adpConfig);
-            RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "loadADPConfigString: config: " + config);
+            //RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "loadADPConfigString: config: " + config);
             RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "loadADPConfigString: adpConfig: " + adpConfig);
 
             return adpConfig;
