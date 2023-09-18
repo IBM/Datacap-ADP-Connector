@@ -603,7 +603,7 @@ namespace OSADPConnector
         {
             RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: begin");
             ADPConfig adpConfig = null;
-            RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: About to load the ADP config string: " + config);
+            //RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: About to load the ADP config string: " + config);
             adpConfig = Utils.loadADPConfig(config, RRLog);
             RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: adpConfig analyze_target: " + adpConfig.analyze_target);
             Boolean multiThread = false;
@@ -797,7 +797,7 @@ namespace OSADPConnector
                 }
                 configString.Append("\"multiThreading\": \"").Append("true").Append("\"");
                 configString.Append(" }");
-                RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "SendPageToADP: configString: " + configString.ToString());
+                //RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "SendPageToADP: configString: " + configString.ToString());
                 sendToADP(configString.ToString());
                 utils.getRidOfUnneededADPFields(oPage, adpConfidenceAction);
             }
