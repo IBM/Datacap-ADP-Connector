@@ -298,6 +298,7 @@ namespace OSADPConnector
 
         private Int64 processADP(String pageID, TDCOLib.IDCO oPage, ADPConfig adpConfig)
         {
+            bool allOK = true;
             Int64 startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             try
             {
@@ -437,9 +438,18 @@ namespace OSADPConnector
                 String methodName = System.Reflection.MethodInfo.GetCurrentMethod().Name;
                 RRLog.WriteEx(OSADPConnector.LOGGING_ERROR, "Class " + className + ", method " + methodName);
                 RRLog.WriteEx(OSADPConnector.LOGGING_ERROR, "Stack Trace: " + e.StackTrace);
+                allOK = false;
             }
-            // Return the time in ms to complete the task
-            return DateTimeOffset.Now.ToUnixTimeMilliseconds() - startTime;
+            if (allOK)
+            {
+                // Return the time in ms to complete the task
+                return DateTimeOffset.Now.ToUnixTimeMilliseconds() - startTime;
+            }
+            else
+            {
+                // Return the time in ms to complete the task
+                return startTime - DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            }
         }
 
         private ADPConnectInfo connectToADP(ADPConfig config, dclogXLib.IDCLog RRLog)
@@ -683,7 +693,7 @@ namespace OSADPConnector
                             else
                             {
                                 Double result = taskList[currWaitThread].Result;
-                                RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + result + " to process page");
+                                //RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + result + " to process page");
                                 currWaitThread++;
                                 currNumThreads--;
                             }
@@ -691,7 +701,7 @@ namespace OSADPConnector
                         else
                         {
                             Double result = taskList[currWaitThread].Result;
-                            RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + result + " to process page");
+                            //RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + result + " to process page");
                             currWaitThread++;
                             currNumThreads--;
                         }
@@ -724,26 +734,35 @@ namespace OSADPConnector
 
             if (multiThread)
             {
-                /*
                 // Loop through the results, the output will be the time
                 Double[] results = new Double[taskList.Count];
                 for (int i = 0; i < taskList.Count; i++)
                 {
                     results[i] = taskList[i].Result;
-                    RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + results[i] + " to process page");
+                    if (results[i] < 0)
+                    {
+                        returnVal = false;
+                        results[i] = -results[i];
+                    }
+                    RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + results[i] + " ms to process file " + i);
                 }
-                */
             }
             else
             {
-                RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + singleThread + " to process all pages");
+                if (singleThread < 0)
+                {
+                    returnVal = false;
+                    singleThread = -singleThread;
+                }
+                RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: ADP: Took " + singleThread + " ms to process this file");
             }
 
             RRLog.WriteEx(OSADPConnector.LOGGING_DEBUG, "sendToADP: end");
         }
 
 
-        public async Task<bool> SendPageToADP(String zenBaseURL, String loginTarget, String zenUserName, String zenPassword, String analyzeTarget, String verifyTokenTarget, String adpProjectID,
+        bool returnVal = true;
+        public bool SendPageToADP(String zenBaseURL, String loginTarget, String zenUserName, String zenPassword, String analyzeTarget, String verifyTokenTarget, String adpProjectID,
                                       String fieldSuffix, String timeoutInMinutes, String jsonOptions, /*String outputDirectoryPath,*/ String outputOptions,
                                       String extraFieldsAction, String confidenceAction, String docClass, String stringPollingIntervalInSeconds, String stringMaxThreads)
         {
@@ -809,8 +828,10 @@ namespace OSADPConnector
                 String methodName = System.Reflection.MethodInfo.GetCurrentMethod().Name;
                 RRLog.WriteEx(OSADPConnector.LOGGING_ERROR, "Class " + className + ", method " + methodName);
                 RRLog.WriteEx(OSADPConnector.LOGGING_ERROR, "Stack Trace: " + e.StackTrace);
+                returnVal = false;
             }
-            return true;
+            RRLog.WriteEx(OSADPConnector.LOGGING_ERROR, "SendPageToADP: returning " + returnVal);
+            return returnVal;
         }
 
         public /*static*/ String uploadToADP(HttpClient httpClient, String url, ADPConfig adpConfig, ADPLoginResponse adpLR, int dpi, byte[] byteImage, String fileName, dclogXLib.IDCLog RRLog)
@@ -824,6 +845,7 @@ namespace OSADPConnector
             myMFDC.Add(new ByteArrayContent(byteImage), "file", shortFN);
             myMFDC.Add(new StringContent(adpConfig.output_options), "responseType");
             myMFDC.Add(new StringContent(adpConfig.json_options), "jsonOptions");
+            myMFDC.Add(new StringContent("false"), "remove_unassociated_KVPs");
             if ((adpConfig.docClass != null) && (adpConfig.docClass.Trim().Length > 0))
             {
                 myMFDC.Add(new StringContent(adpConfig.docClass), "docClass");
