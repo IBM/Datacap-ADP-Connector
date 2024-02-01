@@ -2005,6 +2005,10 @@ namespace OSADPConnector
                 {
                     nameToUse = kvp.key;
                 }
+                if (nameToUse == null)
+                {
+                    nameToUse = "UNNAMED_FIELD";
+                }
                 String typeName = nameToUse;
                 // Changed this -- always add the "_ADP_nn" to ADP
                 int nameIndex = 0;
@@ -2042,8 +2046,14 @@ namespace OSADPConnector
                 utils.updateKeyMatchEntityAndProperties(dco, nameToUse, nameToUse, "ADP", kvp.key, keyLocation, kvp.confidence, null, -1, typeName);
                 utils.updateEntityAndProperties(dco, nameToUse, nameToUse, "ADP", kvp.value, valueLocation, kvp.confidence, null, null, null, -1, typeName);
                 TDCOLib.IDCO newField = dco.FindChild(nameToUse);
-                newField.set_Variable(ADPKeyValuePair.ADPKeyClass, kvp.keyClass);
-                newField.set_Variable(ADPKeyValuePair.ADPKeyClassConfidence, kvp.keyClassConfidence);
+                if (kvp.keyClass != null)
+                {
+                    newField.set_Variable(ADPKeyValuePair.ADPKeyClass, kvp.keyClass);
+                }
+                if (kvp.keyClassConfidence != null)
+                {
+                    newField.set_Variable(ADPKeyValuePair.ADPKeyClassConfidence, kvp.keyClassConfidence);
+                }
                 newField.set_Variable(ADPKeyValuePair.ADPSensitivity, kvp.sensitivity.ToString());
                 if (kvp.haveLineItem)
                 {
