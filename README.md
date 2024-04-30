@@ -15,3 +15,5 @@ With the normal out-of-the-box integration between Datacap and ADP, documents ar
 
 With this connector, you can get the best of both worlds -- the easy configuration and AI-based classification extraction that ADP provides, plus the powerful validation, lookups and delivery in Datacap. You can also optionally leverage the benefits provided by the Datacap Accelerator (for more information on that, see your IBM Expert Labs team).
 ![image](https://github.com/IBM/Datacap-ADP-Connector/assets/40502969/4ce1748e-7e5e-4c32-8f07-7c4d0ca86bb7)
+
+Important note: If you encounter the error ""The client and server cannot communicate, because they do not possess a common algorithm" when running with RuleRunner, follow steps 3 and 5 of this technote (https://www.ibm.com/support/pages/node/292817), then reboot.
